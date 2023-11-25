@@ -1,0 +1,119 @@
+
+<form id="courseQuestionForm" method="POST" action="/course/addQues">
+  <div class="form-group">
+   
+    <input type="hidden" id="exampleInputEmail1" name="course_id" value="{{idcourse}}">
+   
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Câu hỏi</label>
+    <input type="text" class="form-control" id="text-question"  placeholder="Enter text" name="question_text">
+   
+  </div>
+
+  <div class="form-group">
+    <label for="exampleInputEmail1">Đáp án A</label>
+    <input type="text" class="form-control" id="answer"  placeholder="Enter text" name="options[]">
+   <input class="form-check-input" name="options[]" type="checkbox"  id="check-item">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Đáp án B</label>
+    <input type="text" class="form-control" id="answer"  placeholder="Enter text" name="options[]">
+    <input class="form-check-input" name="options[]" type="checkbox"   id="check-item">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Đáp án C</label>
+    <input type="text" class="form-control" id="answer"  placeholder="Enter text" name="options[]">
+   <input class="form-check-input" name="options[]" type="checkbox"  id="check-item">
+  </div>
+
+  <div class="form-group">
+    <label for="exampleInputEmail1">Đáp án D</label>
+    <input type="text" class="form-control" id="answer"  placeholder="Enter text"  name="options[]">
+   <input class="form-check-input" name="options[]" type="checkbox"   id="check-item">
+
+  </div>
+
+
+  <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+  <div class="toast" style="position: absolute; top: 0; right: 0;">
+    <div class="toast-header">
+      <img src="..." class="rounded mr-2" alt="...">
+      <strong class="mr-auto">Bootstrap</strong>
+      <small>11 mins ago</small>
+      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="toast-body">
+      {{successMessage}}
+    </div>
+  </div>
+</div>
+
+ 
+  <button type="submit" class="btn btn-primary">Them câu hỏi</button>
+</form>
+
+<script>
+
+
+
+const formAdd = document.getElementById('courseQuestionForm');
+var arrCheck = document.querySelectorAll('.form-check-input');
+const answer = document.querySelectorAll('#answer')
+arrCheck= Array.from(arrCheck)
+
+// validator khi người dùng chọn nhiều hơn 1 đáp án
+function validatorCheck (checkpresent){
+  var countchecked=0
+ 
+  for(let i=0; i< arrCheck.length ; i++){
+      if(arrCheck[i].checked===true){
+          countchecked+=1
+      }
+  }
+  
+  if(countchecked>1){
+    alert('chỉ được chọn 1 đáp án')
+    checkpresent.checked=false
+    
+  }
+
+}
+
+//validator khi người dùng ko chọn đáp án nào
+function requireCheck (e){
+  var countchecked=0
+  for(let i=0; i< arrCheck.length ; i++){
+      if(arrCheck[i].checked===true){
+          countchecked+=1
+      }
+  }
+
+  
+    if(countchecked===0){
+    alert('hãy chọn ít 1 đáp án đúng bên dưới')
+    e.preventDefault();
+    
+  }
+}
+
+ arrCheck.forEach(function(checkbox) {
+      checkbox.addEventListener('change', function(){
+         validatorCheck(checkbox)
+          if(checkbox.checked){
+            checkbox.value=true
+          }
+      })
+  });
+
+formAdd.addEventListener('submit', function(e){
+   
+    requireCheck(e)
+
+});
+
+
+</script>
+

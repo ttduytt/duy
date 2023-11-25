@@ -1,0 +1,279 @@
+    <div class="content">
+        <div class="contentHead">CÂU HỎI</div>
+            <div class="contentBody">
+                <div class="formQues">
+                    <div class="STT">câu1</div>
+                    <div class="question">
+                        <div class="question-text"> </div>
+                            <div class="groupAnswer">
+                                <div class="itemAnswer">
+                                    <input class="radioAnswer" type="radio" id="b" name="answer" value="0">
+                                    <label class="labelText" for="a">A</label><br>
+                                    <div class="textAnswer"></div>
+                                </div>
+
+                                <div class="itemAnswer">
+                                    <input class="radioAnswer"  type="radio" id="b" name="answer" value="1">
+                                    <label class="labelText" for="a">B</label><br>
+                                    <div class="textAnswer"></div>
+                                </div>
+
+                                <div class="itemAnswer">
+                                    <input class="radioAnswer"  type="radio" id="b" name="answer" value="2">
+                                    <label class="labelText" for="a">C</label><br>
+                                    <div class="textAnswer"></div>
+                                </div>
+
+                                <div class="itemAnswer">
+                                    <input class="radioAnswer"  type="radio" id="b" name="answer" value="3">
+                                    <label class="labelText" for="a">D</label><br>
+                                    <div class="textAnswer"></div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        <div class="contentFooter">
+            <div class="directional">
+                <button class="btn btn-primary btnFirst"> <i class="fas fa-angle-left"></i> Câu trước</button>
+                <button class="btn btn-primary btnLast">Câu sau <i class="fas fa-angle-right"></i></button>
+            </div>
+            <div class="btn btn-primary countDown"></div>
+            <div class="btn btn-primary end">Kết thúc</div>
+        </div>
+
+        <div class="countQuestion">
+            
+        </div>
+      
+    </div>
+
+
+<script>
+
+// tạo list ô vuông câu hỏi
+ 
+ const btNext= document.querySelector('.btn.btn-primary.btnLast') 
+ const btBack=document.querySelector('.btn.btn-primary.btnFirst')
+ const questionText= document.querySelector('.question-text')
+ const textAnswer= document.querySelectorAll('.textAnswer')
+ const stt= document.querySelector('.STT')
+ const countQuestion= document.querySelector('.countQuestion')
+ const radioAnswer= document.querySelectorAll('.radioAnswer')
+ const btEnd= document.querySelector('.btn.btn-primary.end')
+
+ // lấy ra mảng câu hỏi 
+  var questionTextArray = [];
+  {{#each question}}
+    questionTextArray.push("{{this.question_text}}");
+  {{/each}}
+
+ html= questionTextArray.map(function(question, index){
+        return `<div class="countItem"> ${index+1} </div>`
+    })
+
+    countQuestion.innerHTML=html.join('')
+
+// lấy ra nodelist câu hỏi
+const countItem= document.querySelectorAll('.countItem')
+
+// lấy ra mảng chứa đáp án câu hỏi
+var answerQuestions=[]
+var arrQuestionText=[]
+  {{#each question}}
+      arrresult=[]  
+    {{#each this.options }}    
+         arrresult.push(`{{this.option_text}}`) 
+    {{/each}}
+
+       answerQuestions.push(arrresult)
+  {{/each}}
+
+
+   var currentIndex=0;
+
+//câu đầu sáng khi load vào trang
+countItem[currentIndex].classList.add('countActive')
+
+
+// câu số khi load vào trang
+stt.innerHTML='Câu số 1'
+
+//  đáp án khi load vaò trang
+        for(let i=0; i<answerQuestions[currentIndex].length; i++){
+          textAnswer[i].innerHTML= answerQuestions[currentIndex][i]
+        }
+    
+//  câu hỏi khi load vaò trang
+    questionText.innerHTML=questionTextArray[currentIndex]
+ 
+
+    function loadBtnext (currentIndex){
+        // css list câu hỏi
+         countItem.forEach(function(item, index){
+            if  (item.classList.contains('countActive')){
+                item.classList.remove('countActive')
+            }
+         })
+         countItem[currentIndex].classList.add('countActive')
+
+        //load lại câu số
+        stt.innerHTML='Câu số'+(currentIndex+1)
+        //load lại câu hỏi
+        questionText.innerHTML=questionTextArray[currentIndex]
+
+         //load lại đáp án
+        for(let i=0; i<answerQuestions[currentIndex].length; i++){
+          textAnswer[i].innerHTML= answerQuestions[currentIndex][i]
+    }
+    }
+    btNext.onclick= function (){
+        currentIndex+=1
+        if(currentIndex<questionTextArray.length){
+        loadBtnext(currentIndex)
+        }else{
+            currentIndex=0
+            loadBtnext(currentIndex)
+        }
+
+        
+    
+    }
+
+ function loadBtback (){
+
+        // load lại câu số
+        stt.innerHTML='Câu số'+currentIndex
+
+        currentIndex--
+
+         // css list câu hỏi
+         countItem.forEach(function(item, index){
+            if  (item.classList.contains('countActive')){
+                item.classList.remove('countActive')
+            }
+         })
+         countItem[currentIndex].classList.add('countActive')
+
+         //load lại câu hỏi
+        questionText.innerHTML=questionTextArray[currentIndex]
+
+         //load lại đáp án
+        for(let i=0; i<answerQuestions[currentIndex].length; i++){
+          textAnswer[i].innerHTML= answerQuestions[currentIndex][i]
+        }
+ }
+
+  btBack.onclick= function (){
+        
+    if(currentIndex===0){
+        currentIndex=questionTextArray.length-1
+         loadBtnext(currentIndex)
+          
+    }else{
+        loadBtback()
+     }
+   
+ }
+
+    for (let i=0; i<countItem.length; i++){
+        countItem[i].addEventListener('click', function(){
+            // css khi click
+         currentIndex=i
+           loadBtnext(i)
+
+        })
+    }
+
+
+
+
+    // tạo mảng lưu đáp án của user chosse
+    arrUserAnswer=[]
+    for(let i=1; i<=questionTextArray.length; i++){
+        arrUserAnswer.push(
+          {[i]: ''}
+        )
+    }
+
+        // gắn sự kiện khi người dùng chọn đáp án thì lấy đáp án người dùng chọn
+    radioAnswer.forEach(function(answer, index){
+        answer.addEventListener('change', function(){
+            if(answer.checked){
+                arrUserAnswer[currentIndex][currentIndex+1]=answer.value
+            }
+        })
+    })
+
+
+   
+   // dùng để bắt sự kiện khi nội dung thay đổi
+    var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+       // <logic thay đổi đáp án khi sang câu hỏi khác>
+        var answerCurrent= arrUserAnswer[currentIndex][currentIndex+1]
+        radioAnswer.forEach(function(radio, index){
+            if(answerCurrent !==''){
+                if(radio.value===answerCurrent){
+                    radio.checked=true
+                }
+            }else{
+                radio.checked=false
+            }
+        })
+       // </logic thay đổi đáp án khi sang câu hỏi khác>
+    });
+});
+
+ observer.observe(stt, { childList: true });
+  // hết
+
+
+// Tính toán thời gian kết thúc cho đếm ngược (5 phút)
+// time là 300s
+var timeLeft = 120;
+var countdown = document.querySelector('.countDown');
+var x=setInterval(function(){
+    if(timeLeft<= 0){
+          clearInterval(x)
+         countdown.innerHTML='hết giờ'
+      }else{
+        minute= Math.floor(timeLeft/60)
+        second=timeLeft%60
+        countdown.innerHTML= minute+'phút'+second+'giây'
+        }
+ timeLeft-=1
+},1000)
+
+arrTrueAnswer=[]
+{{#each question}}
+    
+    {{#each this.options }}
+        {{#if this.is_correct}}
+          arrTrueAnswer.push(`{{@index}}`) 
+        {{/if}}        
+    {{/each}}
+
+       
+  {{/each}}
+
+//
+var score=0
+btEnd.addEventListener('click', function(){
+    var quanlityQuestion=arrUserAnswer.length
+       for(let i=0; i<quanlityQuestion; i++){
+           if (arrUserAnswer[i][i+1]===''){
+                alert('bạn còn 1 số câu hỏi chưa hoàn thành, bạn có muốn nộp bài không?')
+           }else{
+              if(arrUserAnswer[i][i+1]===arrTrueAnswer[i]){
+                score+=1
+              }
+           }
+       }
+       alert(`đúng ${score} trên ${quanlityQuestion+1} câu`)
+      
+})
+
+
+
+</script>

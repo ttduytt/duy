@@ -1,0 +1,114 @@
+    <div class="nameCourse">{{course.name}}</div>
+   <div><input type="text" name="title" id="title" value="{{contentCourse.title}}"></div> 
+   
+      <input class="idCourse" type="hidden" name="course_id" value="{{course._id}}">
+   <div class="listContentChild">
+    {{#each contentCourse.content}}
+        <div class="formContentChild">
+        <div>
+            <input type="text" name="content[]" class="titleChild" value="{{this.titleChild}}">
+            <textarea name="content[]" id="contentCourse" cols="140" rows="10" >{{this.text}}</textarea>
+        </div> 
+        <div class="btn-Addchild"><button class="addFormChild"> <i class="fas fa-plus"></i> </button></div> 
+        
+        </div>
+    {{/each}}
+   </div>
+
+   
+   
+
+   
+ <div><button class="btUpdate">Sửa nội dung</button></div> 
+
+
+ <script>
+    var btUpdate= document.querySelector('.btUpdate')
+    var title = document.querySelector('#title')
+    var titleChild= document.querySelectorAll('.titleChild')// tieu de
+    var contentCourse= document.querySelectorAll('#contentCourse')// list noi dung
+    var idCourse= document.querySelector('.idCourse')
+    var btAddform= document.querySelectorAll('.addFormChild')
+    var listContentChild= document.querySelector('.listContentChild')
+
+    function AddEvent (){
+        btAddform.forEach(function(btn, index){
+            btn.onclick= function(){
+            
+            var newDiv =document.createElement('div')
+            newDiv.innerHTML=`<div class="formContentChild">
+            <div>
+                <input type="text" name="content[]" class="titleChild" placeholder="nhập tiêu đề con">
+                <textarea name="content[]" id="contentCourse" cols="140" rows="10"></textarea>
+            </div> 
+            <div class="btn-Addchild"><button class="addFormChild"> <i class="fas fa-plus"></i> </button></div> 
+            
+            </div>`
+            
+            listContentChild.appendChild(newDiv)
+        
+        }
+      })
+    }
+
+    AddEvent()
+
+    var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+       // gán lại biến mảng nút add
+         btAddform=document.querySelectorAll('.addFormChild')
+         titleChild= document.querySelectorAll('.titleChild')
+         contentCourse= document.querySelectorAll('#contentCourse')
+         AddEvent()
+
+    });
+});
+
+ observer.observe(listContentChild, { childList: true });
+
+
+ var id= `{{contentCourse._id}}`
+
+    /// fetch api
+    function UpdateContent (data){
+       
+        fetch(`/contentCourse/updateContent/${id}`, {
+        method: "PATCH", 
+        headers: {
+        "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data), 
+    })
+        .then(response =>{
+             if (response.ok) {
+                location.reload();
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        })
+}
+
+   btUpdate.onclick = function(){
+    
+        var contentChild=[]
+        for(let i=0; i<titleChild.length; i++){
+            contentChild.push(
+                {
+                    titleChild: titleChild[i].value,
+                    text: contentCourse[i].value
+                }
+            )
+        }
+
+        var data={
+            title: title.value,
+            course_id: idCourse.value,
+            content: contentChild,
+        }
+        
+        UpdateContent(data)
+        
+    }
+ 
+ </script>

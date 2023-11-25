@@ -1,0 +1,44 @@
+<div class="mt-4">
+
+    <div class="row">
+        <div class="nameCourse">{{course.name}}</div>
+    </div>
+    <a href="/contentCourse/formupdate/{{course._id}}">sửa nội dung</a>
+   <button class="delete">xóa nội dung</button> 
+    {{#each courseContent.content}}
+                <h3>{{this.titleChild}}</h3>
+                <div>{{this.text}}</div>
+    {{/each}}
+
+    {{#unless courseContent}}
+        <div>Bạn chưa tạo nội dung cho khóa học này <a href="/contentCourse/create/{{course._id}}">thêm nội dung cho khóa học tại đây</a></div>
+    {{/unless}}
+       
+
+<script>
+    var btnDelete= document.querySelector('.delete')
+
+    /// api
+    var id=`{{courseContent._id}}`
+  
+ function deleteData() {
+        fetch(`/contentCourse/deleteContent/${id}`, {
+        method: "DELETE", 
+        body:null,
+        headers: {
+        "Content-Type": "application/json",
+        }
+    })
+         .then(response =>{
+             if (response.ok) {
+                location.reload();
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        })
+
+}
+
+    btnDelete.onclick= deleteData
+</script>

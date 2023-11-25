@@ -1,0 +1,175 @@
+
+<!-- Modal -->
+<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Xóa khóa học</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc muốn xóa khóa học này
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>    
+        <button id="btn-delete" type="button" class="btn btn-primary">Có</button>
+    
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+
+
+<form class="mt-4" id="formWithDelete" method="POST" action="/courses/handelFormAction">
+  <div class="recybin">
+     <h2> Khóa học của tôi</h2>
+    <div class="iconTrash">
+    <a class="iconTrashLink" href="/me/trash/courses">
+    <i class="fas fa-trash"></i>
+    Thùng rác ({{courseDeleted}})</a>
+    </div>
+    
+  </div>
+
+
+<div class="d-flex align-self-center">
+
+  <div class="form-check d-flex align-self-center">
+    <input class="form-check-input" type="checkbox" value="" id="check-all" >
+    <label class="form-check-label" for="flexCheckChecked" id="check-all">
+      Chọn tất cả
+    </label>
+  </div>
+
+  <select name="method" class="form-select selectAction" aria-label="Default select example"  required>
+     <option value="">--Chọn hành động--</option>
+    <option  value="delete">Xóa</option>
+  </select>
+   
+  <button id="btnSubmitAll" class="btn btn-primary disabled">Xóa</button>
+
+
+</div>
+
+
+    <table class="table mt-4">
+  <thead>
+    <tr>
+      <th scope="col">Chọn</th>
+      <th scope="col">
+        <div class="test">STT</div> 
+        </th>
+      <th scope="col">
+        <div class="colume"> Tên khóa học 
+          <div class="arrow">     
+            <a class="link-sort" href="?_sort&colume=name&type=asc"><i class="fas fa-arrow-up"></i></a>
+            <a class="link-sort" href="?_sort&colume=name&type=desc"> <i class="fas fa-arrow-down"></i></a> 
+          </div>     
+        </div>
+       
+      </th>
+      <th scope="col">
+        <div class="colume"> Mô tả
+          <div class="arrow">     
+           <a class="link-sort" href="?_sort&colume=description&type=asc"><i class="fas fa-arrow-up"></i></a>
+           <a class="link-sort" href="?_sort&colume=description&type=desc"> <i class="fas fa-arrow-down"></i></a> 
+          </div>     
+        </div>
+       
+      </th>
+      <th scope="col">
+       <div class="colume"> ngày tạo
+          <div class="arrow">     
+            <a class="link-sort" href="?_sort&colume=createdAt&type=asc"><i class="fas fa-arrow-up"></i></a>
+           <a class="link-sort" href="?_sort&colume=createdAt&type=desc"> <i class="fas fa-arrow-down"></i></a> 
+          </div>     
+        </div>
+      </th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+      {{#each course}}
+    <tr>
+      <td> <input class="form-check-input" name="courseId[]" type="checkbox" value="{{this._id}}" id="check-item"></td>
+      <th scope="row"> {{sum @index 1}}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.description}}</td>
+      <td>{{this.createdAt}}</td>
+      <td><a href="/courses/{{this._id}}/update" class="btn btn-primary">Sửa</a></td>
+      <td><button type="button" class="btn btn-primary" data-id="{{this._id}}" data-toggle="modal" data-target="#delete-modal">Xóa</button></td>
+      <td><a href="/course/{{this._id}}/lisQuestion" >Danh sách câu hỏi</a> </td>
+    </tr>
+
+         {{else}}
+        <tr>
+            <td class="text-center" colspan="6">
+                Bạn chưa có khóa học nào <a href="/courses/create">Thêm khóa học tại đây</a>
+            </td>
+        </tr>
+      {{/each}}
+
+
+  </tbody>
+</table>
+
+</form>
+
+<form id="myForm" method="POST"></form>
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    var id
+    var formhiden= document.getElementById('myForm')
+    var checkAll= $('#check-all')
+    var checkItems=$('input[name="courseId[]"]')
+    var btnSubmitAll= $('#btnSubmitAll')
+    var formWithDelete= $('#formWithDelete')
+    $('#delete-modal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) // Button that triggered the modal
+     id = button.data('id') // Extract info from data-* attributes
+
+    })
+
+    var btnDeleteCourse= document.querySelector('#btn-delete')
+    btnDeleteCourse.onclick= function(){
+ 
+        formhiden.setAttribute('action', `/courses/${id}/?_method=DELETE`)
+        formhiden.submit()
+        
+    }
+
+    function checkCompare (){
+      var CountChecked=$('input[name="courseId[]"]:checked').length
+      var ischeckedAll = checkItems.length === CountChecked
+      ischeckedAll? checkAll.prop('checked', true):checkAll.prop('checked', false)
+      btnSubmitAll.toggleClass('disabled', CountChecked === 0);
+    }
+
+    checkItems.change (function(){
+        checkCompare()
+    })
+    checkAll.change(function(){
+     var ischecked= $(this).is(':checked')
+    checkItems.prop('checked', ischecked)
+    checkCompare ()
+
+    })
+
+    btnSubmitAll.click(function(e){
+      var isSubmit= btnSubmitAll.hasClass('disabled')
+      if(isSubmit){
+         e.preventDefault()
+      }
+    })
+  
+})
+
+</script>
+
+
+

@@ -1,0 +1,100 @@
+
+<form id="courseQuestionForm" method="POST" action="/course/{{courseques._id}}/update?_method=PUT">
+  <div class="form-group">
+   
+  
+   
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Câu hỏi</label>
+    <input type="text" class="form-control" id="text-question" value="{{courseques.question_text}}"  placeholder="Enter text" name="question_text">
+   
+  </div>
+
+
+  {{#each courseques.options}}
+  <div class="aswer-Item">
+      <input type="text" value="{{this.option_text}}" name="options[]" >
+      <input type="checkbox" checkAnswer="{{this.is_correct}}" id="check-item" class="form-check-input" name="options[]">
+  </div>
+  {{/each}}
+
+
+
+
+ 
+  <button type="submit" class="btn btn-primary">Sửa câu hỏi</button>
+</form>
+
+<script>
+     const checkAnswer= document.querySelectorAll('#check-item')
+  for (let i=0; i<checkAnswer.length; i++){
+     var correcAnswer = checkAnswer[i].getAttribute('checkAnswer');
+     if(correcAnswer==="true"){
+        checkAnswer[i].checked=true
+     }else{
+      checkAnswer[i].checked=false
+     }
+  }
+
+
+const formAdd = document.getElementById('courseQuestionForm');
+var arrCheck = document.querySelectorAll('.form-check-input');
+const answer = document.querySelectorAll('#answer')
+arrCheck= Array.from(arrCheck)
+
+// validator khi người dùng chọn nhiều hơn 1 đáp án
+function validatorCheck (checkpresent){
+  var countchecked=0
+ 
+  for(let i=0; i< arrCheck.length ; i++){
+      if(arrCheck[i].checked===true){
+          countchecked+=1
+      }
+  }
+  
+  if(countchecked>1){
+    alert('chỉ được chọn 1 đáp án')
+    checkpresent.checked=false
+    
+  }
+
+}
+
+//validator khi người dùng ko chọn đáp án nào
+function requireCheck (e){
+  var countchecked=0
+  for(let i=0; i< arrCheck.length ; i++){
+      if(arrCheck[i].checked===true){
+          countchecked+=1
+      }
+  }
+
+  
+    if(countchecked===0){
+    alert('hãy chọn ít 1 đáp án đúng bên dưới')
+    e.preventDefault();
+    return
+  }
+}
+
+ arrCheck.forEach(function(checkbox) {
+      checkbox.addEventListener('change', function(){
+         validatorCheck(checkbox)
+          if(checkbox.checked){
+            checkbox.value=true
+          }
+      })
+  });
+
+formAdd.addEventListener('submit', function(e){
+   
+    requireCheck(e)
+
+ 
+
+});
+
+
+</script>
+
