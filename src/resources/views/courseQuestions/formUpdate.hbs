@@ -1,5 +1,41 @@
 
-<form id="courseQuestionForm" method="POST" action="/course/{{courseques._id}}/update?_method=PUT">
+<header id="HeaderUser">
+  <nav class="header">
+    <div class="header-logo">
+      <i class="fas fa-motorcycle"></i>
+      <span>Phlox</span>
+      <span>Business</span>
+    </div>
+    <div class="header-controll">
+      <ul class="header-controll-list">
+        <li><a class="homepage" href="/me/home/{{username._id}}">HOME</a></li>
+        <li>ABOUT</li>
+        <li>BLOG</li>
+        <li>SERVICES</li>
+        <li>COURSES</li>
+        <li>CONTACT</li>
+      </ul>
+    </div>
+    <div class="header-search">
+     <a class="linkBtnMyCourse" href="/me/stored/courses"><button class="btn-PURCHASE">Course Management</button></a> 
+     <div class="img-avt">
+        <img class="avatar" src="{{username.avatar}}" alt="">
+          <ul class="menu-child-avt">
+           
+          <li><a class="link-MyAcount" href="/me/myAcount/{{username._id}}">Thông tin tài khoản</a></li>
+            <div class="triangle"></div>
+            <li><a class="logOut" href="/me/logOut">Đăng xuất</a></li>
+             
+         </ul>
+     </div> 
+   
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+  <form id="courseQuestionForm" method="POST" action="/course/{{courseques._id}}/update?_method=PUT">
   <div class="form-group">
    
   
@@ -13,10 +49,10 @@
 
 
   {{#each courseques.options}}
-  <div class="aswer-Item">
-      <input type="text" value="{{this.option_text}}" name="options[]" >
-      <input type="checkbox" checkAnswer="{{this.is_correct}}" id="check-item" class="form-check-input" name="options[]">
-  </div>
+    <div class="aswer-Item">
+        <input type="text" value="{{this.option_text}}" name="options[]" >
+        <input type="checkbox" checkAnswer="{{this.is_correct}}" id="check-item" class="form-check-input" name="options[]" value="true">
+    </div>
   {{/each}}
 
 
@@ -25,8 +61,28 @@
  
   <button type="submit" class="btn btn-primary">Sửa câu hỏi</button>
 </form>
+</div>
 
 <script>
+
+   var avatar= document.querySelector('.avatar')
+    const menuchild = document.querySelector('.menu-child-avt')
+
+        avatar.addEventListener('click', function(event){
+        if(!menuchild.classList.contains('activeAvt')){
+             menuchild.classList.add('activeAvt')
+              event.stopPropagation();
+        }
+       
+    })
+
+    document.addEventListener('click', function(){
+        if(menuchild.classList.contains('activeAvt')){
+              menuchild.classList.remove('activeAvt')
+        }
+    })
+
+  // hiện đáp án đúng khi vào giao diện
      const checkAnswer= document.querySelectorAll('#check-item')
   for (let i=0; i<checkAnswer.length; i++){
      var correcAnswer = checkAnswer[i].getAttribute('checkAnswer');
@@ -63,6 +119,11 @@ function validatorCheck (checkpresent){
 
 //validator khi người dùng ko chọn đáp án nào
 function requireCheck (e){
+  
+  for (let i=0; i<checkAnswer.length; i++){
+    console.log(checkAnswer[i].checked)
+  }
+
   var countchecked=0
   for(let i=0; i< arrCheck.length ; i++){
       if(arrCheck[i].checked===true){
@@ -90,9 +151,7 @@ function requireCheck (e){
 formAdd.addEventListener('submit', function(e){
    
     requireCheck(e)
-
- 
-
+   
 });
 
 

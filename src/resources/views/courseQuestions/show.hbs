@@ -1,3 +1,39 @@
+<header id="HeaderUser">
+  <nav class="header">
+    <div class="header-logo">
+      <i class="fas fa-motorcycle"></i>
+      <span>Phlox</span>
+      <span>Business</span>
+    </div>
+    <div class="header-controll">
+      <ul class="header-controll-list">
+        <li><a class="homepage" href="/me/home/{{username._id}}">HOME</a></li>
+        <li>ABOUT</li>
+        <li>BLOG</li>
+        <li>SERVICES</li>
+        <li>COURSES</li>
+        <li>CONTACT</li>
+      </ul>
+    </div>
+    <div class="header-search">
+     <a class="linkBtnMyCourse" href="/me/stored/courses"><button class="btn-PURCHASE">Course Management</button></a> 
+     <div class="img-avt">
+        <img class="avatar" src="{{username.avatar}}" alt="">
+          <ul class="menu-child-avt">
+           
+          <li><a class="link-MyAcount" href="/me/myAcount/{{username._id}}">Thông tin tài khoản</a></li>
+            <div class="triangle"></div>
+           <li><a class="logOut" href="/me/logOut">Đăng xuất</a></li>
+             
+         </ul>
+     </div> 
+   
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+  </nav>
+</header>
+
+
 <!-- Modal -->
 <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -9,7 +45,7 @@
         </button>
       </div>
       <div class="modal-body">
-        Bạn có chắc muốn xóa khóa học này
+        Bạn có chắc muốn xóa câu hỏi này khỏi khóa học ?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>    
@@ -25,30 +61,69 @@
 
 <div class="container">
 
-  <div class="nameCourse"> tên khóa học:{{course.name}}</div>
+  <div class="nameCourse"> TÊN KHÓA HỌC: {{course.name}}</div>
   <a href="/course/{{idCourse}}/createQuestion" class="btn btn-primary">thêm câu hỏi</a>
    {{!-- thông tin kháo học --}}
-  <div class="courseDetail">
-  {{#each courseques}}
-      <div class="question">{{this.question_text}}</div>
 
-   {{#each this.options}}
-   <div class="item-answer">
-    <div class="answer">{{this.option_text}}</div>
-    <input type="checkbox"  id="check-item" correcAnswer="{{this.is_correct}}">
-   </div> 
-   {{/each}}
-     <a href="/course/{{this._id}}/updateQuestion" class="btn btn-primary">sửa câu hỏi</a>
-     <button data-toggle="modal" data-id="{{this._id}}" data-target="#delete-modal" class="btn btn-primary">xóa câu hỏi</button>
-      
-      {{else}}
-       <p class="text-center">Không có dữ liệu câu hỏi <a href="/course/{{idCourse}}/createQuestion">Thêm câu hỏi cho khóa học này tại đây</a></p>
-  {{/each}}
-  </div>
+
+<table>
+    <thead>
+      <tr>
+        <th class="css-table" scope="col">
+          STT
+        </th>
+
+         <th class="css-table" scope="col">
+          Câu hỏi
+        </th>
+
+         <th class="css-table" scope="col">
+          Đáp án
+        </th>
+
+        <th class="css-table" scope="2"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#each courseques}}
+        <tr>
+            <td class="css-table">{{sum @index 1}}</td>
+            <td class="css-table">{{this.question_text}}</td>
+             {{#each this.options}}
+                {{#if this.is_correct}}
+                  <td class="css-table">{{this.option_text}}</td>
+                {{/if}}
+             {{/each}}
+             <td class="css-table"><a href="/course/{{this._id}}/updateQuestion" class="btn btn-primary">SỬA</a></td>
+             <td class="css-table"> <button data-toggle="modal" data-id="{{this._id}}" data-target="#delete-modal" class="btn btn-primary">XÓA</button></td>
+        </tr>
+       {{/each}}
+    </tbody>
+</table>
+
+
     {{!--đóng thông tin kháo học --}}
 </div>
 
 <script>
+   var avatar= document.querySelector('.avatar')
+  const menuchild = document.querySelector('.menu-child-avt')
+
+      avatar.addEventListener('click', function(event){
+        if(!menuchild.classList.contains('activeAvt')){
+             menuchild.classList.add('activeAvt')
+              event.stopPropagation();
+        }
+       
+    })
+
+    document.addEventListener('click', function(){
+        if(menuchild.classList.contains('activeAvt')){
+              menuchild.classList.remove('activeAvt')
+        }
+    })
+
 document.addEventListener('DOMContentLoaded', function(){
   $('#delete-modal').on('show.bs.modal', function (event) {
     

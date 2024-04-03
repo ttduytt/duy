@@ -1,35 +1,52 @@
+<header id="HeaderUser">
+  <nav class="header">
+    <div class="header-logo">
+      <i class="fas fa-motorcycle"></i>
+      <span>Phlox</span>
+      <span>Business</span>
+    </div>
+    <div class="header-controll">
+      <ul class="header-controll-list">
+        <li><a class="homepage" href="/me/home/{{username._id}}">HOME</a></li>
+        <li>ABOUT</li>
+        <li>BLOG</li>
+        <li>SERVICES</li>
+        <li>COURSES</li>
+        <li>CONTACT</li>
+      </ul>
+    </div>
+    <div class="header-search">
+     <a class="linkBtnMyCourse" href="/me/stored/courses"><button class="btn-PURCHASE">Course Management</button></a> 
+     <div class="img-avt">
+        <img class="avatar" src="{{username.avatar}}" alt="">
+          <ul class="menu-child-avt">
+           
+          <li><a class="link-MyAcount" href="/me/myAcount/{{username._id}}">Thông tin tài khoản</a></li>
+            <div class="triangle"></div>
+            <li>Đăng xuất</li>
+             
+         </ul>
+     </div> 
+   
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+  </nav>
+</header>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="logo">
-   <img class="logo-img" src="https://lh3.googleusercontent.com/HnuU1h-Hlu8381xQwwytKd1EnkR_WscIYRBfBNwwwYwi6JFb1xfl6LEv6_tBuyYRPuGjIEoZDzsCRlyHxDCAFV3UUYlRmT9LRJj3dNp3dRAVZTa1swPsN5hin7ztCerla6qNrY6eH5WX8kJ5G3T26i9QxmWuR4O9qZLxtoWpZKT664mbc6O7c_Qk5E-sVf5lWC3y9A" alt="">
-  </div>
-  <a class="navbar-brand" href="#">Driver</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<script>
+   var avatar= document.querySelector('.avatar')
+    const menuchild = document.querySelector('.menu-child-avt')
+      avatar.addEventListener('click', function(event){
+        if(!menuchild.classList.contains('activeAvt')){
+             menuchild.classList.add('activeAvt')
+              event.stopPropagation();
+        }
+       
+    })
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-      </li>
-     
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/courses/create">Đăng khóa học</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/me/stored/courses">Khóa học của tôi</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Đăng xuất</a>
-        </div>
-    </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-  </div>
-</nav>
+    document.addEventListener('click', function(){
+        if(menuchild.classList.contains('activeAvt')){
+              menuchild.classList.remove('activeAvt')
+        }
+    })
+</script>

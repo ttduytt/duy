@@ -61,51 +61,23 @@
 
 <!-- Modal -->
 
-
-<form class="mt-4" id="formWithDelete" method="POST" action="/courses/handelFormAction">
-  <div class="recybin">
-     <h2 class="myCourseTitle"> Khóa học của tôi <a href="/courses/create"><div class="iconAddCourse"><i class="fa-solid fa-plus"></i></div></h2></a>
-    <div class="iconTrash">
-    <a class="iconTrashLink" href="/me/trash/courses">
-    <i class="fas fa-trash"></i>
-    Thùng rác ({{courseDeleted}})</a>
-    </div>
-   
-    
-  </div>
-
-
-<div class="d-flex align-self-center formActionAll">
-
-  <div class="form-check d-flex align-self-center">
-    <input class="form-check-all" type="checkbox" value="" id="check-all" >
-    <label class="form-check-label selectAll" for="flexCheckChecked" id="check-all">
-      Chọn tất cả
-    </label>
-  </div>
-
-  <select name="method" class="form-select selectAction" aria-label="Default select example"  required>
-     <option value="">--Chọn hành động--</option>
-    <option  value="delete">Xóa</option>
-  </select>
-   
-  <button id="btnSubmitAll" class="btn btn-primary disabled">Thực hiện</button>
- 
-  <a id="btnManagerUser" class="btn btn-primary " href="/me/managerUser">Quản lí người dùng</a>
-
+<div class="serchUser">
+   <input id="inputSearchUser" type="text" placeholder="nhập tên người dùng">
+   <button class="btnSearchUser" onclick="searchTable()"><i class="fa-solid fa-magnifying-glass iconSearchUser"></i></button> 
 </div>
 
+<form class="mt-4" id="formWithDelete" method="POST" action="/courses/handelFormAction">
 
 
-    <table class="table mt-4">
+    <table id="myTable" class="table mt-4">
   <thead>
     <tr>
-      <th class="css" scope="col">Chọn</th>
+     
       <th class="css" scope="col">
         STT
       </th>
       <th scope="col">
-        <div class="colume"> Tên khóa học  
+        <div class="colume"> Tên User  
              <div class="arrow">     
             <a class="link-sort" href="#"><i class="fas fa-arrow-up"></i></a>
             <a class="link-sort" href="#"> <i class="fas fa-arrow-down"></i></a> 
@@ -114,7 +86,7 @@
        
       </th>
       <th scope="col">
-        <div class="colume"> Mô tả
+        <div class="colume"> Email
           <div class="arrow">     
            <a class="link-sort" href="#"><i class="fas fa-arrow-up"></i></a>
            <a class="link-sort" href="#"> <i class="fas fa-arrow-down"></i></a> 
@@ -130,29 +102,23 @@
           </div>     
         </div>
       </th>
-      <th colspan="4"></th>
+      <th colspan="2"></th>
     </tr>
   </thead>
   <tbody>
-      {{#each course}}
+      {{#each Listusers}}
     <tr>
-      <td> <input class="form-check-input" name="courseId[]" type="checkbox" value="{{this._id}}" id="check-item"></td>
+     
       <td class="stt-course"> {{sum @index 1}}</td>
-      <td>{{this.name}}</td>
-      <td>{{this.description}}</td>
+      <td>{{this.username}}</td>
+      <td>{{this.email}}</td>
       <td>{{this.createdAt}}</td>
-      <td><a href="/courses/{{this._id}}/update" class="btn btn-primary">Sửa</a></td>
       <td class="remove-vertical"><button type="button" class="btn btn-primary" data-id="{{this._id}}" data-toggle="modal" data-target="#delete-modal">Xóa</button></td>
-      <td class="remove-vertical"><a href="/course/{{this._id}}/lisQuestion" >Danh sách câu hỏi</a> </td>
-      <td class="remove-vertical"><a href="/courses/{{this.slug}}" >Nội dung khóa học</a> </td>
+ 
     </tr>
 
-         {{else}}
-        <tr>
-            <td class="text-center" colspan="6">
-                Bạn chưa có khóa học nào <a href="/courses/create">Thêm khóa học tại đây</a>
-            </td>
-        </tr>
+        
+    
       {{/each}}
 
 
@@ -160,62 +126,9 @@
 </table>
 
 </form>
-
 <form id="myForm" method="POST"></form>
 <script>
-  document.addEventListener('DOMContentLoaded', function(){
-    var id
-    var formhiden= document.getElementById('myForm')
-    var checkAll= $('#check-all')
-    var checkItems=$('input[name="courseId[]"]')
-    var btnSubmitAll= $('#btnSubmitAll')
-    var formWithDelete= $('#formWithDelete')
-    $('#delete-modal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget) // Button that triggered the modal
-     id = button.data('id') // Extract info from data-* attributes
-
-    })
-
-    var btnDeleteCourse= document.querySelector('#btn-delete')
-    btnDeleteCourse.onclick= function(){
- 
-        formhiden.setAttribute('action', `/courses/${id}/?_method=DELETE`)
-        formhiden.submit()
-        
-    }
-
-    function checkCompare (){
-      var CountChecked=$('input[name="courseId[]"]:checked').length
-      var ischeckedAll = checkItems.length === CountChecked
-      ischeckedAll? checkAll.prop('checked', true):checkAll.prop('checked', false)
-      btnSubmitAll.toggleClass('disabled', CountChecked === 0);
-    }
-
-    checkItems.change (function(){
-        checkCompare()
-    })
-    checkAll.change(function(){
-     var ischecked= $(this).is(':checked')
-    checkItems.prop('checked', ischecked)
-    checkCompare ()
-
-    })
-
-    btnSubmitAll.click(function(e){
-      var isSubmit= btnSubmitAll.hasClass('disabled')
-      if(isSubmit){
-         e.preventDefault()
-      }
-    })
-  
-})
-
-</script>
-
-</div>
-
-<script>
-   var avatar= document.querySelector('.avatar')
+     var avatar= document.querySelector('.avatar')
     const menuchild = document.querySelector('.menu-child-avt')
 
         avatar.addEventListener('click', function(event){
@@ -231,6 +144,70 @@
               menuchild.classList.remove('activeAvt')
         }
     })
+   
+     document.addEventListener('DOMContentLoaded', function(){
+      
+    var id
+    var formhiden= document.getElementById('myForm')
+    var checkAll= $('#check-all')
+    var checkItems=$('input[name="courseId[]"]')
+    var btnSubmitAll= $('#btnSubmitAll')
+    var formWithDelete= $('#formWithDelete')
+    $('#delete-modal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) // Button that triggered the modal
+     id = button.data('id') // Extract info from data-* attributes
+
+    })
+
+    var btnDeleteCourse= document.querySelector('#btn-delete')
+    btnDeleteCourse.onclick= function(){
+ 
+        formhiden.setAttribute('action', `/user/delete/${id}/?_method=DELETE`)
+        formhiden.submit()
+        
+    }
+
+
+     })
+
+
+  var input, filter, table, tr, td, i, txtValue;
+ 
+  input = document.getElementById('inputSearchUser');
+ 
+  table = document.getElementById('myTable');
+  tr = table.getElementsByTagName('tr');
+
+  function searchTable() {
+
+  filter = input.value.toUpperCase();
+
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName('td');
+    for (var j = 0; j < td.length; j++) {
+      if (td[j]) {
+        txtValue = td[j].textContent || td[j].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = '';
+          break;
+        } else {
+          tr[i].style.display = 'none';
+        }
+      } 
+    }
+  }
+
+}
+
+// Lắng nghe sự kiện khi trường input rời focus
+input.addEventListener('focusout', function() {
+  if (input.value === '') {
+    var tr = table.getElementsByTagName('tr');
+    for (var i = 0; i < tr.length; i++) {
+      tr[i].style.display = '';
+    }
+
+  }
+});
+
 </script>
-
-

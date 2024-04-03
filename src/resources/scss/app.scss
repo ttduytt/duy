@@ -1,8 +1,4 @@
-h1 {
-    color: green;
-    font-size: 15px;
-    line-height: 20px;
-}
+
 
 .nav-item.dropdown:hover .dropdown-menu{
     display: block;
@@ -178,11 +174,733 @@ h1 {
     padding: 5px 10px;
 }
 
-.btn-Addchild{
+
+.btnStudyhome{
+    min-width: 100px;
+}
+
+
+
+.login-form {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    outline: none;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+.login-form input[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.login-form input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.login-form a {
+    text-decoration: none;
+    color: #666;
+    font-size: 14px;
+}
+
+.login-form a:hover {
+    color: #444;
+}
+
+.contenOnly{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url('../img/7017.jpg_wh860.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+  
+}
+
+
+   
+   /* css dăng kí */
+
+   .content-Signup {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #f1f1f1;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+div.terms {
+    text-align: center;
+    font-size: 14px;
+    padding: 5px;
+}
+
+.header{
+    background-color: #fdfdfd;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    align-items: center;
+}
+
+.header-controll-list{
+    display: flex;
+    align-items: center;
+    margin-bottom:0;
+}
+
+.header-controll-list>li{
+    cursor: pointer;
+    list-style: none;
+    padding: 0 10px;
+    font-weight: 600;
+}
+
+.header-logo{
+    font-weight: bold;
+}
+
+.btn-PURCHASE{
+    background: linear-gradient(to right, #a5e977, #01deae);
+    color: white;
+    border-radius: 15px;
+    border: none;
+    padding: 6px 15px;
+    margin-right: 20px;
+}
+
+.fas.fa-motorcycle,.fa-solid.fa-magnifying-glass{
+    color: #01deae;
+}
+
+.content-main{ 
+    background-color: white;
+}
+
+.row-about{
+    margin-top: 100px;
+    position: relative;
+    display: flex;
+    height: 400px;
+}
+
+.row-about-img{
+    flex-grow: 1;
+    background-image: url('../img/about.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.row-about-introduce{
+
+  width: 40%;
+}
+
+.content-row{
+    width: 570px;
+    position: absolute;
+    right: 600px;
+    top: 48px;
+}
+
+.rowService{
+   
+    width: 100%;
+    padding-bottom: 90px;
+    display: flex;
+    justify-content: space-around;
+    background-color: #f3f3f3;
+}
+
+.linkService{
+    margin-top: 20px;
+}
+
+.rowService-Item {
+    margin-top: 70px;
+    display: flex;
+    height: 250px;
+    flex-wrap: wrap;
+   justify-content: center;
+}
+
+.img-Service{
+   
+    width: 100%;
+    height: 90%;
+}
+
+.row-Courses{
+    margin-top: 200px;
+    padding: 0 30px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.row-Courses-course{
+    margin: 10px 0;
+}
+
+.row-Courses-description{
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.rowBlog{
+    width: 100%;
+    display: flex;
+    height: 455px;
+    justify-content: center;
+    position: relative;
+    margin-top: 100px;
+    margin-bottom: 60px;
+}
+
+.slide{
+    width: 80%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.slide-container{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    transition: 0.5s;
+}
+
+.slide-image{
+    height: 100%;
+    width: 100%;
+}
+
+.img-blog{
+    height: 100%;
+    width: 1010px;
+    object-fit: cover;
+}
+
+.btn-left{
+    position: absolute;
+    left: 100px;
+    top:49%;
+    border-radius: 50%;
+    padding: 12px 20px;
+    border: none;
+    border: 1px solid #ccc;
+}
+
+.btn-right{
+    position: absolute;
+    right: 100px;
+    top:48%;
+    border-radius: 50%;
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+}
+
+.btn-left, .btn-right{
+    transition: box-shadow 0.3s ease;
+}
+
+.btn-left:hover, .btn-right:hover{
+    box-shadow: 0 0 5px 5px rgba(183, 181, 181, 0.4);
+}
+
+.content-Blog{
+    position: absolute;
+    color: white;
+    top: 20%;
+    left: 15%;
+
+}
+
+.selection-heading, .selection-sub-heading{
+    text-align: center;
+}
+
+.column-ct{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.column-ct>i{
+    width: 100%;
+}
+
+.content-Bar-Name{
+    display: flex;
+    justify-content: space-between;
+}
+
+.content-Bar-Name>input{
+    background-color: white;
+    width: 48%;
+}
+
+#wtf{
+    background-color: white;
+}
+
+.row-contact{
+    margin: 50px 0;
+    padding: 80px 0;
+    background-color: #f3f3f3;
+}
+
+.header-logo>i{
+    font-size: 30px;
+}
+
+.text-center.text-lg-start.bg-body-tertiary.text-muted{
+    margin-top: 100px;
+}
+
+.cotentStored{
+    padding: 80px 50px;
+}
+
+.form-check-input{
+    margin: 0;
+    margin-left: 10px;
+    margin-top: 18px;
+}
+
+.stt-course{
+    text-align: center;
+    line-height: 50px;
+}
+
+.css{
+    line-height: 41px;
+}
+
+.contenUpdateCourse{
+    padding: 80px 50px;
+}
+
+.nameCourse{
+    margin-top: 50px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.css-table{
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+}
+
+.form-group{
     display: flex;
     align-items: center;
 }
 
-.btnStudyhome{
-    min-width: 100px;
+.form-group>input{
+    left: 3%;
+   margin-bottom: 20px;
+}
+
+.titleQuestionCourse{
+    margin-top: 50px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.selectAll{
+    margin-left: 10px;
+}
+
+.formActionAll{
+   padding: 20px 0;
+}
+
+.myCourseTitle{
+    display: flex;
+  
+}
+
+.iconAddCourse{
+    cursor: pointer;
+    color: #3e82e8;
+    border: 2px solid #538dd7;
+    margin-left: 10px;
+    border-radius: 50%;
+    padding: 0px 5px;
+}
+.iconAddCourse:hover{
+    color: blue;
+}
+
+.inputFormAddCourse{
+    min-width: 1025px;
+    min-height: 50px;
+}
+
+.labelFormaddCourse{
+    width: 100px;
+}
+
+#courseForm{
+    padding-top: 80px;
+}
+
+.avatar{
+    position: relative;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    margin-right: 10px;
+    margin-bottom: 3px;
+}
+
+.img-avt{
+    display: inline;
+    position: relative;
+}
+
+.menu-child-avt{
+    z-index: 1;
+    padding-left: 0;
+    background-color: #ebebeb;
+    border-radius: 6px;
+    position: absolute;
+    top: 200%;
+    left: -120px;
+    display: none;
+    transition:  all linear 0.5s;
+    transform-origin: top right; 
+}
+
+.menu-child-avt>li{
+    list-style: none;
+    margin:10px 0;
+    padding: 5px 10px;
+    
+}
+
+.menu-child-avt>li:hover{
+    background-color: #ccc;
+}
+
+.triangle{
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 20px solid #ebebeb; /* thay đổi màu sắc ở đây */
+  top: -10%;
+  left: 80%;
+  z-index: -1;
+}
+
+
+.menu-child-avt.activeAvt{
+    transform: scale(1);
+    display: block;
+
+}
+
+.titleFormMyAccount{
+   justify-content:  center;
+    font-weight: bold;
+    font-size: 30px;
+    margin-top: 40px;
+}
+
+.contentAcount{
+    margin-top: 50px;
+}
+
+.contentAcount-imgAvatar{
+    width: 100%;
+    text-align: center;
+  
+}
+
+.img-contentAcount-imgAvatar{
+    width: 135px;
+    height: 135px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.contentAcount-userName{
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+}
+
+.contentAcount-createAt{
+    text-align: center;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.group-input-account{
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.group-input-account>label{
+    width: 10%;
+}
+
+.group-input-account>input{
+    width: 75%;
+}
+
+.btn-Update{
+    margin-left: 415px;
+}
+
+.btUpdateAccount{
+    padding: 10px;
+    color: black;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    background-color: #f3cb2b;
+}
+
+.cssEmail{
+    cursor: not-allowed;
+}
+
+.link-MyAcount{
+    color: black;
+    text-decoration: none;
+}
+
+.link-MyAcount:hover{
+    color: black;
+    text-decoration: none;
+}
+
+.titleMycourse{
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 50px 0;
+}
+
+.itemMycourse{
+    position: relative;
+    height: 370px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+ 
+}
+
+.addmysubricedCourse{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 370px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 2px dashed #ccc;
+   
+}
+.addmysubricedCourse:hover{
+    border: 2px dashed rgb(254, 170, 12);
+}
+
+.iconAddmysubricedCourse{
+    font-size: 40px;
+}
+
+.iconAddmysubricedCourse>i{
+    border: 2px dashed;
+    border-radius: 50%;
+    padding: 0px 2px;
+}
+
+.iconAddmysubricedCourse>i:hover{
+    color: rgb(254, 170, 12);
+}
+
+.imgMycourse{
+    width: 100%;
+    height: 70%;
+}
+
+.imgMycourse>img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+.nameMycourse{
+    margin-top: 10px;
+    text-align: center;
+}
+
+.actionsCourse{
+    display: flex;
+    margin-top: 10px;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    margin-bottom: 10px;
+}
+
+.actionsCourse>a{
+    margin-left: 5px;
+}
+
+.notAvailibleconten{
+    text-align: center;
+}
+
+.nameCourse{
+    width: 100%;
+    text-align: center;
+    font-size: 22px;
+}
+
+.formAddcontentCourse{
+    display: flex;
+    align-items: center;
+}
+
+.btn-Addchild{
+    padding-left: 10px;
+}
+
+.btAdd{
+    margin-top: 20px;
+}
+
+.btUpdate{
+    margin-top: 20px;
+}
+
+.titleCourseContent{
+    margin-top: 30px;
+}
+
+.row.fff{
+    flex-wrap: wrap;
+}
+
+.homepage{
+    list-style: none;
+    color: black;
+}
+
+.homepage:hover{
+    text-decoration: none;
+}
+
+.header-controll-list>li:hover{
+    color:#007bff;
+}
+
+#HeaderUser{
+    top: 0;
+    width: 100%;
+    position: fixed;
+    z-index: 1000;
+}
+
+.container{
+    padding-top: 80px;
+}
+
+.contenStudy{
+    padding: 100px 50px;
+    
+}
+
+.logOut{
+    color: black;
+}
+
+.logOut:hover{
+    text-decoration: none;
+    color: black;
+}
+
+#btnManagerUser{
+    margin-left: 20px;
+}
+
+.serchUser{
+    display: flex;
+    align-items: center;
+    
+}
+
+.iconSearchUser{
+    font-size: 25px;
+}
+
+#inputSearchUser{
+    margin: 0 10px;
+}
+
+.btnSearchUser{
+    border: none;
+    background-color: white;
+}
+
+.titleChild{
+    margin: 10px 0;
 }

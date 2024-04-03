@@ -1,65 +1,153 @@
-    <div class="nameCourse">{{course.name}}</div>
-   <div><input type="text" name="title" id="title" value="{{contentCourse.title}}"></div> 
+<header id="HeaderUser">
+  <nav class="header">
+    <div class="header-logo">
+      <i class="fas fa-motorcycle"></i>
+      <span>Phlox</span>
+      <span>Business</span>
+    </div>
+    <div class="header-controll">
+      <ul class="header-controll-list">
+        <li><a class="homepage" href="/me/home/{{username._id}}">HOME</a></li>
+        <li>ABOUT</li>
+        <li>BLOG</li>
+        <li>SERVICES</li>
+        <li>COURSES</li>
+        <li>CONTACT</li>
+      </ul>
+    </div>
+    <div class="header-search">
+     <a class="linkBtnMyCourse" href="/me/stored/courses"><button class="btn-PURCHASE">Course Management</button></a> 
+     <div class="img-avt">
+        <img class="avatar" src="{{username.avatar}}" alt="">
+          <ul class="menu-child-avt">
+           
+          <li><a class="link-MyAcount" href="/me/myAcount/{{username._id}}">Thông tin tài khoản</a></li>
+            <div class="triangle"></div>
+            <li><a class="logOut" href="/me/logOut">Đăng xuất</a></li>
+             
+         </ul>
+     </div> 
+   
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+  </nav>
+</header>
+
+
+<div class="container">
+        <div class="nameCourse">{{course.name}}</div>
+         <div class="titleCourseContent"><input type="text" name="title" id="title" value="{{contentCourse.title}}"></div> 
    
       <input class="idCourse" type="hidden" name="course_id" value="{{course._id}}">
    <div class="listContentChild">
     {{#each contentCourse.content}}
+        {{#if @last}}
         <div class="formContentChild">
-        <div>
-            <input type="text" name="content[]" class="titleChild" value="{{this.titleChild}}">
-            <textarea name="content[]" id="contentCourse" cols="140" rows="10" >{{this.text}}</textarea>
-        </div> 
-        <div class="btn-Addchild"><button class="addFormChild"> <i class="fas fa-plus"></i> </button></div> 
-        
+            <div>
+                    <input type="text" name="content[]" class="titleChild" value="{{this.titleChild}}">
+                    <div class="formAddcontentCourse">
+                         <textarea name="content[]" id="contentCourse" cols="140" rows="10">{{this.text}}</textarea>
+                         <div class="btn-Addchild"><button class="addFormChild"> <i class="fas fa-plus"></i> </button></div> 
+                    </div>
+                   
+            </div>     
         </div>
+        {{else}}
+        <div class="formContentChild">
+            <div>
+                    <input type="text" name="content[]" class="titleChild" value="{{this.titleChild}}">
+                    <div class="formAddcontentCourse">
+                         <textarea name="content[]" id="contentCourse" cols="140" rows="10">{{this.text}}</textarea>
+                         <div class="btn-Addchild"><button class="addFormChild"> <i class="fa-solid fa-minus"></i> </button></div> 
+                    </div>
+                   
+            </div>     
+        </div>
+        {{/if}}
     {{/each}}
    </div>
 
-   
-   
+ <div><button class="btn btn-primary btUpdate">Sửa nội dung</button></div> 
 
-   
- <div><button class="btUpdate">Sửa nội dung</button></div> 
-
+</div>
 
  <script>
+    var avatar= document.querySelector('.avatar')
+    const menuchild = document.querySelector('.menu-child-avt')
     var btUpdate= document.querySelector('.btUpdate')
     var title = document.querySelector('#title')
     var titleChild= document.querySelectorAll('.titleChild')// tieu de
     var contentCourse= document.querySelectorAll('#contentCourse')// list noi dung
     var idCourse= document.querySelector('.idCourse')
-    var btAddform= document.querySelectorAll('.addFormChild')
+    var btHandelform= document.querySelectorAll('.addFormChild')
     var listContentChild= document.querySelector('.listContentChild')
 
-    function AddEvent (){
-        btAddform.forEach(function(btn, index){
+    avatar.addEventListener('click', function(event){
+        if(!menuchild.classList.contains('activeAvt')){
+             menuchild.classList.add('activeAvt')
+              event.stopPropagation();
+        }
+       
+    })
+
+    document.addEventListener('click', function(){
+        if(menuchild.classList.contains('activeAvt')){
+              menuchild.classList.remove('activeAvt')
+        }
+    })
+
+    function AddEvent (btn){
+
             btn.onclick= function(){
             
             var newDiv =document.createElement('div')
             newDiv.innerHTML=`<div class="formContentChild">
             <div>
-                <input type="text" name="content[]" class="titleChild" placeholder="nhập tiêu đề con">
-                <textarea name="content[]" id="contentCourse" cols="140" rows="10"></textarea>
-            </div> 
-            <div class="btn-Addchild"><button class="addFormChild"> <i class="fas fa-plus"></i> </button></div> 
-            
-            </div>`
+                    <input type="text" name="content[]" class="titleChild" placeholder="nhập tiêu đề con">
+                    <div class="formAddcontentCourse">
+                         <textarea name="content[]" id="contentCourse" cols="140" rows="10"></textarea>
+                        <div class="btn-Addchild"><button class="addFormChild"> <i class="fas fa-plus"></i> </button></div> 
+                    </div>
+                   
+            </div>     
+        </div>`
             
             listContentChild.appendChild(newDiv)
         
         }
-      })
+    
     }
+    
+    var lastbtn= btHandelform[btHandelform.length-1]
 
-    AddEvent()
+// nếu có nhiều hơn 1 nội dung con thì gán sự kiện cho nút - 
+    if(btHandelform.length>1){
+        for(let i=0; i<btHandelform.length-1; i++){
+            btHandelform[i].onclick= function(){
+               formContentChild= this.closest('.formContentChild')
+               formContentChild.remove()
+            }
+    }
+    }
+     
 
-    var observer = new MutationObserver(function(mutations) {
+     AddEvent(lastbtn) // gán sự kiện cho nút + ở nội dung cuối
+
+    var observer = new MutationObserver(function(mutations) { // khi nội dung thay đổi thì gán lại các biến
     mutations.forEach(function(mutation) {
-       // gán lại biến mảng nút add
-         btAddform=document.querySelectorAll('.addFormChild')
+       // gán lại mảng nút add
+         btHandelform=document.querySelectorAll('.addFormChild')
          titleChild= document.querySelectorAll('.titleChild')
          contentCourse= document.querySelectorAll('#contentCourse')
-         AddEvent()
+         
+         for(let i=0; i<btHandelform.length-1; i++){
+            btHandelform[i].innerHTML=`<i class="fa-solid fa-minus"></i>`
+            btHandelform[i].onclick= function(){
+               formContentChild= this.closest('.formContentChild')
+               formContentChild.remove()
+            }
+         }
+         AddEvent(btHandelform[btHandelform.length-1])
 
     });
 });

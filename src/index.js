@@ -7,9 +7,20 @@ const port = 3000;
 const methodOverride = require('method-override');
 const db= require("./config/db");
 const route = require('./routes');
+const cors= require('cors');
+const dotenv= require('dotenv').config();
+const cookiParser= require ('cookie-parser');
+const sortMiddleware=require('./app/middleware/sortMiddleware');
 
 // connect database
 db.connect();
+
+
+app.use(cors());
+app.use(cookiParser());
+
+//custom middleware
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(

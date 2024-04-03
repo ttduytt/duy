@@ -1,0 +1,23 @@
+    
+    <div class="login-form">
+        <form action="/authen/login" method="post">
+            <input type="text" name="username" placeholder="Your email" required>
+            <input type="password" name="password" placeholder="Your password" required>
+            <input type="submit" value="Sign in">
+        </form>
+        <div style="margin-top: 20px; text-align: center;">
+            <a href="/register">Don't have an account?</a>
+            <a href="#" style="margin-left: 10px;">Forgot password?</a>
+        </div>
+    </div>
+
+<script>
+    var boolent= `{{boolent}}`
+    if(boolent===1){
+        alert('đăng kí thành công, bây h bạn có thể đăng nhập')
+    }
+
+    console.log(boolent)
+
+   
+</script>

@@ -25,7 +25,8 @@
 <!-- Modal -->
 
 
-<form class="mt-4" method="post" action="/courses/handelFormAction">
+<div class="container">
+  <form class="mt-4" method="post" action="/courses/handelFormAction">
   <div class="recybin">
      <h2> Khóa học đã xóa của tôi</h2>
      
@@ -35,11 +36,11 @@
     
   </div>
 
-  <div class="d-flex align-self-center">
+  <div class="d-flex align-self-center formActionAll">
 
-  <div class="form-check d-flex align-self-center">
-    <input class="form-check-input" type="checkbox" value="" id="check-all" >
-    <label class="form-check-label" for="flexCheckChecked" id="check-all">
+    <div class="form-check d-flex align-self-center">
+    <input class="form-check-all" type="checkbox" value="" id="check-all" >
+    <label class="form-check-label selectAll" for="flexCheckChecked" id="check-all">
       Chọn tất cả
     </label>
   </div>
@@ -88,6 +89,7 @@
 </table>
 
 </form>
+</div>
 
 <form id="myForm" method="POST"></form>
 <form id="FormRestore" method="POST"></form>
@@ -110,7 +112,7 @@
     var btnRes=document.querySelectorAll('.btn.btn-primary.btRestore')
     btnDeleteCourse.onclick= function(){
  
-        formhiden.setAttribute('action', `/courses/${id}/?_method=DELETE`)
+        formhiden.setAttribute('action', `/courses/${id}/destroy/?_method=DELETE`)
         formhiden.submit()
         
     }

@@ -1,5 +1,8 @@
 const CourseQuestion = require('../models/CourseQuestions'); 
-const Course= require('../models/Course')
+const jwt= require('jsonwebtoken');
+const Course= require('../models/Course');
+const user= require ('../models/User');
+const { token } = require('morgan');
 class CourseQuestionController {
   async  showQuestion(req, res, next) {
     try {
@@ -7,8 +10,8 @@ class CourseQuestionController {
         var course= await Course.findById({_id:idCourse}).lean()
         var courseques= await CourseQuestion.find({course_id:idCourse})
         .lean()
-       
-        res.render('./courseQuestions/show', {courseques,idCourse,course})
+        var username= await user .findOne({admin:true}).lean()
+        res.render('./courseQuestions/show', {layout:'mainLogin', courseques,idCourse,course,username})
     } catch (error) {
         console.log(error)
     }
@@ -19,7 +22,10 @@ class CourseQuestionController {
   async createQuestion (req, res){
     try {
       let idcourse= req.params.id
-      res.render('./courseQuestions/createQuestion',{idcourse})
+    var course= await  Course.findById(idcourse)
+      .lean()
+    var username= await user.findOne({admin:true}).lean()
+      res.render('./courseQuestions/createQuestion',{layout:'mainLogin', username, idcourse,course})
     } catch (error) {
       console.log(error)
     }
@@ -52,10 +58,11 @@ class CourseQuestionController {
         }
        
         req.body.options=newOption
+        var idcourse= req.body.course_id
         
         await CourseQuestion.create(req.body)
-        var successMessage = 'Thao tác thành công!';
-        res.render('./courseQuestions/createQuestion',{successMessage})
+    
+        res.redirect(`/course/${idcourse}/lisQuestion`)
       } catch (error) {
         console.log(error)
       }
@@ -66,7 +73,8 @@ class CourseQuestionController {
    
       var courseques= await CourseQuestion.findById(req.params.id)
       .lean()
-      res.render('./courseQuestions/formUpdate',{courseques})
+      var username= await user.findOne({admin:true}).lean()
+      res.render('./courseQuestions/formUpdate',{layout:'mainLogin', courseques, username})
      } catch (error) {
       console.log(error)
      }
@@ -95,9 +103,11 @@ class CourseQuestionController {
        
         req.body.options=newOption
         
-       
+      var question= await CourseQuestion.findById(req.params.id) 
+      var idcourse=question.course_id
+
        await CourseQuestion.updateOne({_id: req.params.id }, req.body)
-       res.redirect('/me/stored/courses')
+       res.redirect(`/course/${idcourse}/lisQuestion`)
       } catch (error) {
         console.log(error)
       }
@@ -114,10 +124,11 @@ class CourseQuestionController {
 
    async formStudy(req, res){
         try {
-          
+         
           var question= await CourseQuestion.find({course_id:req.params.id})
           .lean()
-          res.render('./courseQuestions/formAuditions',{question})
+          var username=jwt.decode(req.cookies.token)
+          res.render('courseQuestions/formAuditions',{layout:'mainLogin',question, username})
         } catch (error) {
           console.log(error)
         }

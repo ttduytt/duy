@@ -33,45 +33,29 @@
   </nav>
 </header>
 
-<div class="contenUpdateCourse">
-  <div class="mt-4"><h2>Cập nhật khóa học</h2></div>
-<form method="POST" action="/courses/{{course._id}}?_method=PUT">
-  <div class="form-group">
-    <label for="exampleInputEmail" class=" labelFormaddCourse">name</label>
-    <input type="text" class="form-control" id="exampleInputEmail1" value="{{course.name}}"  name="name">
 
-   
-  </div>
-
-  <div class="form-group">
-    <label for="exampleInputEmail" class=" labelFormaddCourse">description</label>
-    <input type="text" class="form-control" id="exampleInputEmail1" value="{{course.description}}"   name="description">
-
-   
-  </div>
-  <div class="form-group">
-    <label for="exampleInputEmail" class=" labelFormaddCourse">link img</label>
-    <input type="text" class="form-control" id="exampleInputEmail1" value="{{course.image}}"   name="image">
-
-   
-  </div>
-  <div class="form-group">
-    
-    <input type="hidden" class="form-control" id="exampleInputEmail1" value="{{course.video}}" name="video">
-
-   
-  </div>
-
-
- 
-  <button type="submit" class="btn btn-primary">Sửa khóa học</button>
-</form>
+<div class="container">
+    <div class="titleMycourse">Khóa học của tôi</div>
+    <div class="row fff">
+        {{#each mycouresSubriced}}
+          <div class="col-xl-3 itemMycourse">
+            <div class="imgMycourse"><img src="{{this.image}}" alt=""></div>
+            <div class="nameMycourse">{{this.name}}</div>
+            <div class="actionsCourse">
+            <a href="/courses/{{this.slug}}" class="btn btn-primary btnStudyhome btnsubriceCourse">Tiếp tục học</a>
+            <a href="/course/{{this._id}}/study" class="btn btn-primary btnStudyhome">Thi thử</a>
+            </div>
+        </div>
+        {{/each}}
+        <div class="col-xl-3 addmysubricedCourse"><div class="iconAddmysubricedCourse"><i class="fa-solid fa-plus"></i></div> </div>
+    </div>
 </div>
 
 <script>
-   var avatar= document.querySelector('.avatar')
+    var avatar= document.querySelector('.avatar')
     const menuchild = document.querySelector('.menu-child-avt')
-    avatar.addEventListener('click', function(event){
+
+        avatar.addEventListener('click', function(event){
         if(!menuchild.classList.contains('activeAvt')){
              menuchild.classList.add('activeAvt')
               event.stopPropagation();
@@ -84,4 +68,20 @@
               menuchild.classList.remove('activeAvt')
         }
     })
+
+       // kiểm tra quyền nếu là người dùng đã đăng ký
+    var linkBtnMyCourse= document.querySelector('.linkBtnMyCourse')
+    const btnPuchare= document.querySelector('.btn-PURCHASE')
+  
+    var checkuser= `{{checkuser}}`
+    if (checkuser==='user'){
+        btnPuchare.innerHTML= 'My Course'
+        linkBtnMyCourse.href=`/me/couresSubriced/{{username._id}}`
+    }
+
+    var iconAddmysubricedCourse= document.querySelector('.iconAddmysubricedCourse')
+    iconAddmysubricedCourse.addEventListener('click', function(){
+        window.location.href='/me/notSubricecourse'
+    })
+
 </script>

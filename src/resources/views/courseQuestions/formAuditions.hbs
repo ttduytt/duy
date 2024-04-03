@@ -1,4 +1,69 @@
-    <div class="content">
+<!-- Modal -->
+<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc chắn muốn kết thúc bài thi?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>    
+        <button id="btn-showScore" type="button" class="btn btn-primary">Có</button>
+    
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+
+<header id="HeaderUser">
+  <nav class="header">
+    <div class="header-logo">
+      <i class="fas fa-motorcycle"></i>
+      <span>Phlox</span>
+      <span>Business</span>
+    </div>
+    <div class="header-controll">
+      <ul class="header-controll-list">
+        <li><a class="homepage" href="/me/home/{{username._id}}">HOME</a></li>
+        <li>ABOUT</li>
+        <li>BLOG</li>
+        <li>SERVICES</li>
+        <li>COURSES</li>
+        <li>CONTACT</li>
+      </ul>
+    </div>
+    <div class="header-search">
+     <a class="linkBtnMyCourse" href="/me/stored/courses"><button class="btn-PURCHASE">Course Management</button></a> 
+     <div class="img-avt">
+        <img class="avatar" src="{{username.avatar}}" alt="">
+          <ul class="menu-child-avt">
+           
+          <li><a class="link-MyAcount" href="/me/myAcount/{{username._id}}">Thông tin tài khoản</a></li>
+            <div class="triangle"></div>
+            <li><a class="logOut" href="/me/logOut">Đăng xuất</a></li>
+         </ul>
+     </div> 
+   
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+  </nav>
+</header>
+
+<div class="contenStudy">
+    
+
+
+
+
+        <div class="content">
         <div class="contentHead">CÂU HỎI</div>
             <div class="contentBody">
                 <div class="formQues">
@@ -39,7 +104,7 @@
                 <button class="btn btn-primary btnLast">Câu sau <i class="fas fa-angle-right"></i></button>
             </div>
             <div class="btn btn-primary countDown"></div>
-            <div class="btn btn-primary end">Kết thúc</div>
+            <div class="btn btn-primary end" data-toggle="modal" data-target="#delete-modal">Kết thúc</div>
         </div>
 
         <div class="countQuestion">
@@ -47,6 +112,8 @@
         </div>
       
     </div>
+
+</div>
 
 
 <script>
@@ -60,7 +127,7 @@
  const stt= document.querySelector('.STT')
  const countQuestion= document.querySelector('.countQuestion')
  const radioAnswer= document.querySelectorAll('.radioAnswer')
- const btEnd= document.querySelector('.btn.btn-primary.end')
+ const showScore= document.getElementById('btn-showScore')
 
  // lấy ra mảng câu hỏi 
   var questionTextArray = [];
@@ -231,7 +298,7 @@ stt.innerHTML='Câu số 1'
 
 // Tính toán thời gian kết thúc cho đếm ngược (5 phút)
 // time là 300s
-var timeLeft = 120;
+var timeLeft = 5;
 var countdown = document.querySelector('.countDown');
 var x=setInterval(function(){
     if(timeLeft<= 0){
@@ -240,10 +307,13 @@ var x=setInterval(function(){
       }else{
         minute= Math.floor(timeLeft/60)
         second=timeLeft%60
-        countdown.innerHTML= minute+'phút'+second+'giây'
+        countdown.innerText= minute+' phút '+second+' giây'
         }
  timeLeft-=1
 },1000)
+
+
+
 
 arrTrueAnswer=[]
 {{#each question}}
@@ -257,22 +327,71 @@ arrTrueAnswer=[]
        
   {{/each}}
 
-//
-var score=0
-btEnd.addEventListener('click', function(){
+
+
+
+/////
+    var avatar= document.querySelector('.avatar')
+    const menuchild = document.querySelector('.menu-child-avt')
+
+    avatar.addEventListener('click', function(event){
+        if(!menuchild.classList.contains('activeAvt')){
+             menuchild.classList.add('activeAvt')
+              event.stopPropagation();
+        }
+       
+    })
+
+    document.addEventListener('click', function(){
+        if(menuchild.classList.contains('activeAvt')){
+              menuchild.classList.remove('activeAvt')
+        }
+    })
+
+     // kiểm tra quyền nếu là người dùng đã đăng ký
+    var linkBtnMyCourse= document.querySelector('.linkBtnMyCourse')
+    const btnPuchare= document.querySelector('.btn-PURCHASE')
+   
+    var checkuser= `{{username.admin}}`
+    
+    if (checkuser==='false'){
+       
+        btnPuchare.innerHTML= 'My Course'
+        linkBtnMyCourse.href=`/me/couresSubriced/{{username._id}}`
+    }
+
+    // tính điểm
+    var score=0
+    var linkbtnpuchare=linkBtnMyCourse.getAttribute('href')
     var quanlityQuestion=arrUserAnswer.length
+    function getScoreuser(){
+   
        for(let i=0; i<quanlityQuestion; i++){
-           if (arrUserAnswer[i][i+1]===''){
-                alert('bạn còn 1 số câu hỏi chưa hoàn thành, bạn có muốn nộp bài không?')
-           }else{
+           
               if(arrUserAnswer[i][i+1]===arrTrueAnswer[i]){
                 score+=1
               }
-           }
+           
        }
-       alert(`đúng ${score} trên ${quanlityQuestion+1} câu`)
+       alert(`đúng ${score} trên ${quanlityQuestion} câu`)
+       window.location.href=`${linkbtnpuchare}`
       
-})
+}
+    showScore.addEventListener('click', function(){
+        getScoreuser()
+    })
+
+        var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+       // <logic tkhi đếm ngược>
+       if(countdown.innerText==='hết giờ'){
+            setTimeout(function(){ getScoreuser()},500)
+       }
+      
+    });
+});
+ observer.observe(countdown, { childList: true });
+
 
 
 
